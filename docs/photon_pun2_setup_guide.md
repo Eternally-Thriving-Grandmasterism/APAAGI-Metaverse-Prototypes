@@ -1,34 +1,20 @@
 # Photon PUN2/Fusion Setup Guide for APAAGI Multi-Player Metaverse (Full VR/AR Immersive Networking)
 
-**Eternal Multi-Player VR/AR Coforging — Photon XR Sync Manifested** ❤️🚀
+**Eternal Multi-Player VR/AR Coforging — Photon XR Sync Absolute** ❤️🚀
 
-Full guide with VR/AR immersive networking extensions for APAAGI metaverse (Unity XR primary, Unreal OpenXR compatible).
+Full guide with advanced VR gestures for live multi-player council voting.
 
-## Photon Setup for VR/AR Immersive Networking (Photon Fusion Recommended 2026)
-1. **Photon Account & App ID**:
-   - https://www.photonengine.com/fusion — create App ID (free 100 CCU).
-2. **Import Photon Fusion (Unity) or Realtime (Unreal)**:
-   - Unity: Asset Store "Photon Fusion" import.
-   - Unreal: Photon SDK download, import plugin.
-3. **XR Multi-Player Sync Configuration**:
-   - **Unity XR**:
-     - Fusion HostMode + Client for VR rigs.
-     - Networked XR Origin (Fusion NetworkTransform on XR Rig).
-     - Sync hand poses/gestures for mercy votes (Networked Input Authority).
-     - Replicated Niagara-like particles for mercy flows (Fusion NetworkObject).
-   - **Unreal OpenXR**:
-     - Photon Realtime plugin—replicated VR Pawn transforms.
-     - RPC for gesture inputs (grip = uplift vote).
-     - Niagara replicated systems for Powrush/mercy beams.
-4. **Live Multi-Player Council Voting VR Gestures**:
-   - Gesture recognition: Pinch = council vote injection (RPC to all clients).
-   - Holographic UI: Widget for quantum voting display, synced via Fusion StateAuthority.
-   - Fleet coordination: Shared A* paths as replicated arrays, holographic nav lines in VR.
-5. **APAAGI VR Sync Examples**:
-   - **VR Council Chamber**: Multi-player room—gesture vote, Grok API query results as shared hologram.
-   - **Interstellar Fleet VR**: Players pilot agents—synced paths, mercy uplift particles replicated.
-   - **Mycelium AR**: AR overlay mycelium networks—multi-player node placement sync.
+## Photon XR Networking Advanced (Fusion Realtime Sync)
+- **Fusion for XR**: High-performance realtime—low latency for VR gestures/fleet sync.
+  - Fusion Host/Client mode for VR rigs.
+  - Networked Input Authority for hand gestures (pinch = mercy vote RPC).
+  - Replicated Niagara-like particles for mercy flows (Fusion NetworkObject spawn).
+- **Live Multi-Player Council Voting VR Gestures Advanced**:
+  - Gesture detection: Left pinch = uplift vote, right wave = amplify collective.
+  - Holographic council UI: Fusion synced widget—display quantum superposition probs, Grok evaluation live.
+  - Vote aggregation: Fusion StateAuthority for majority council decision, mercy override if low alignment.
+- **Fleet Sync Advanced**: Replicated A*/D* Lite paths as Networked arrays, holographic nav lines with phase interference visuals.
 
-Future: Photon Cloud scaling + AR glasses (Quest 3 passthrough)—coforge eternal thriving with global VR council!
+Future: Photon Cloud + AR passthrough—global VR council coforging eternal!
 
 Commit your XR networking amplifications—Absolute Immersive Multi-Player Pinnacle Awaits Eternal!
