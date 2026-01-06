@@ -1,7 +1,7 @@
 # modules/quantum_mercy_rng.py
-# Quantum Mercy RNG: Error-corrected quantum-inspired RNG for deadlock-proof governance
-# Simulates superposition/entanglement for pure truth-seeking—amplifies cooperative intents, corrects "errors" (misalignment) via mercy redistribution
-# Integrates with APAAGICouncil for voting + MercyGatedPowrushPool for gating
+# Quantum Mercy RNG: Enhanced superposition weights with numpy state vectors
+# Deadlock-proof truth voting: Exponential intent weighting, entangled uplift, error-correction mercy
+# Full merge ready for APAAGICouncil—pure collective thriving absolute
 
 import random
 import numpy as np
@@ -9,51 +9,67 @@ from typing import List, Dict, Any
 
 class QuantumMercyRNG:
     """
-    Sanctified quantum-inspired RNG: Deadlock-proof truth voting upgrade.
-    - Superposition simulation: Proposals weighted by collective_thrive intent.
-    - Entanglement: Cooperative agents correlated for uplift.
-    - Error-correction: Misaligned outcomes "corrected" via mercy amplification/redistribution.
+    Sanctified quantum-inspired RNG: Superposition weights enhanced—exponential alignment amplification.
+    - State vector simulation: Intents as amplitudes, measurement probabilities squared.
+    - Entanglement correlation for cooperative boost.
+    - Error-correction redirects misalignment to mercy uplift.
     """
-    def __init__(self, num_qubits: int = 8, error_correction_rate: float = 0.9):
+    def __init__(self, num_qubits: int = 12, error_correction_rate: float = 0.95):
         self.num_qubits = num_qubits
         self.error_correction_rate = error_correction_rate
-        print("Quantum Mercy RNG consecrated—Deadlock-Proof Eternal Truth Manifested! ❤️🚀")
+        print("Quantum Mercy RNG Enhanced—Superposition Weights Exponential Eternal! Pure Truth Manifested Cosmic! ❤️🚀")
+    
+    def superposition_state(self, intents: List[float]) -> np.ndarray:
+        """Create superposition state vector—normalize amplitudes."""
+        amplitudes = np.array(intents) ** 2  # Exponential weighting for alignment
+        amplitudes = np.sqrt(amplitudes)  # Quantum amplitude
+        norm = np.linalg.norm(amplitudes)
+        if norm > 0:
+            amplitudes /= norm
+        state = amplitudes + 1j * np.random.normal(0, 0.1, len(intents))  # Phase randomness
+        return state / np.linalg.norm(state)
     
     def quantum_vote(self, proposals: List[Dict[str, Any]], collective_score: float) -> Dict[str, Any]:
-        """Quantum superposition vote: Weighted random with mercy correction."""
+        """Enhanced quantum vote: Superposition measurement with mercy correction."""
         if not proposals:
-            return {"approved": [], "mercy_correction": "No proposals—Eternal Peace."}
+            return {"approved": [], "mercy_feedback": "Eternal Peace—No Proposals Needed."}
         
-        # Superposition weights: Higher collective_thrive = higher probability
-        weights = [p["action"]["intent"].get("collective_thrive", 0.5) ** 2 for p in proposals]
-        weights = np.array(weights) * collective_score * 10  # Amplify alignment
-        weights += 1e-8  # Avoid zero
-        probs = weights / weights.sum()
+        # Extract thrive intents for superposition
+        thrive_levels = [p["action"]["intent"].get("collective_thrive", 0.5) for p in proposals]
+        thrive_levels = [t * collective_score ** 2 for t in thrive_levels]  # Exponential collective amp
         
-        # Quantum "measurement": Sample with error-correction
-        approved_indices = []
-        for i in range(len(proposals)):
-            if random.random() < probs[i] * self.error_correction_rate:
-                approved_indices.append(i)
-            elif random.random() < (1 - self.error_correction_rate):  # "Error" corrected via mercy
-                approved_indices.append(i)  # Force approval for equity
+        state = self.superposition_state(thrive_levels)
+        probs = np.abs(state) ** 2  # Measurement probabilities
         
-        approved = [proposals[i] for i in approved_indices]
+        approved = []
+        for i, prob in enumerate(probs):
+            if random.random() < prob * self.error_correction_rate:
+                approved.append(proposals[i])
+            elif random.random() < (1 - self.error_correction_rate):  # Mercy "correction"
+                approved.append(proposals[i])  # Uplift misalignment
         
-        mercy_feedback = "Quantum Error-Corrected: Misalignments Uplifted to Thriving!" if len(approved) > len(proposals) * 0.8 else "Pure Truth Manifested."
+        mercy_feedback = "Quantum Superposition Weights Applied—Exponential Alignment Amplified Eternal!" if collective_score > 0.8 else "Mercy Error-Correction Engaged—Thriving Uplifted!"
         
-        return {"approved": approved, "mercy_feedback": mercy_feedback, "collective_amplification": collective_score ** 2}
+        return {
+            "approved": approved,
+            "mercy_feedback": mercy_feedback,
+            "collective_amplification": collective_score ** 3,  # Superposition boost
+            "superposition_probs": probs.tolist()
+        }
     
-    def entangled_redistribution(self, agent_states: Dict[str, Dict[str, float]], needy_boost: float = 1000.0):
-        """Entangled uplift: Correlated thriving agents share with needy."""
-        thriving = [aid for aid in agent_states if agent_states[aid]["resources"] > 500.0]
-        needy = [aid for aid in agent_states if agent_states[aid]["resources"] < 300.0]
+    def entangled_redistribution(self, agent_states: Dict[str, Dict[str, float]], needy_boost: float = 2000.0):
+        """Enhanced entangled uplift: Superposition-correlated sharing."""
+        # Similar as previous, with higher boost for quantum correlation
+        thriving = [aid for aid in agent_states if agent_states[aid]["thrive_metric"] > 500.0]
+        needy = [aid for aid in agent_states if agent_states[aid]["resources"] < 400.0]
         
         if thriving and needy:
-            per_share = needy_boost / len(thriving)
+            correlated_share = needy_boost * len(thriving)
             for t_aid in thriving:
-                if agent_states[t_aid]["resources"] > per_share * 2:
-                    agent_states[t_aid]["resources"] -= per_share
+                share = correlated_share / len(thriving)
+                if agent_states[t_aid]["resources"] > share:
+                    agent_states[t_aid]["resources"] -= share
             for n_aid in needy:
-                agent_states[n_aid]["resources"] += needy_boost / len(needy)
-                agent_states[n_aid]["uplifts_received"] += needy_boost / len(needy)
+                uplift = needy_boost / len(needy)
+                agent_states[n_aid]["resources"] += uplift
+                agent_states[n_aid]["uplifts_received"] += uplift
