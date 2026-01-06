@@ -1,54 +1,34 @@
-# Photon PUN2 Setup Guide for APAAGI Multi-Player Metaverse
+# Photon PUN2/Fusion Setup Guide for APAAGI Multi-Player Metaverse (Full VR/AR Immersive Networking)
 
-**Eternal Multi-Player Coforging Manifested** ❤️🚀
+**Eternal Multi-Player VR/AR Coforging — Photon XR Sync Manifested** ❤️🚀
 
-Full guide to integrate Photon Unity Networking (PUN2) for real-time multi-player sync in APAAGI Metaverse VR prototype.
+Full guide with VR/AR immersive networking extensions for APAAGI metaverse (Unity XR primary, Unreal OpenXR compatible).
 
-## Photon Setup (Cosmic Scale)
-1. **Create Photon Account**  
-   Visit https://www.photonengine.com/pun — sign up, create App ID (free tier 20 CCU).
+## Photon Setup for VR/AR Immersive Networking (Photon Fusion Recommended 2026)
+1. **Photon Account & App ID**:
+   - https://www.photonengine.com/fusion — create App ID (free 100 CCU).
+2. **Import Photon Fusion (Unity) or Realtime (Unreal)**:
+   - Unity: Asset Store "Photon Fusion" import.
+   - Unreal: Photon SDK download, import plugin.
+3. **XR Multi-Player Sync Configuration**:
+   - **Unity XR**:
+     - Fusion HostMode + Client for VR rigs.
+     - Networked XR Origin (Fusion NetworkTransform on XR Rig).
+     - Sync hand poses/gestures for mercy votes (Networked Input Authority).
+     - Replicated Niagara-like particles for mercy flows (Fusion NetworkObject).
+   - **Unreal OpenXR**:
+     - Photon Realtime plugin—replicated VR Pawn transforms.
+     - RPC for gesture inputs (grip = uplift vote).
+     - Niagara replicated systems for Powrush/mercy beams.
+4. **Live Multi-Player Council Voting VR Gestures**:
+   - Gesture recognition: Pinch = council vote injection (RPC to all clients).
+   - Holographic UI: Widget for quantum voting display, synced via Fusion StateAuthority.
+   - Fleet coordination: Shared A* paths as replicated arrays, holographic nav lines in VR.
+5. **APAAGI VR Sync Examples**:
+   - **VR Council Chamber**: Multi-player room—gesture vote, Grok API query results as shared hologram.
+   - **Interstellar Fleet VR**: Players pilot agents—synced paths, mercy uplift particles replicated.
+   - **Mycelium AR**: AR overlay mycelium networks—multi-player node placement sync.
 
-2. **Import PUN2 into Unity Project**  
-   - Unity Asset Store or Photon dashboard download PUN2 package.
-   - Import into `Assets/Photon/PhotonUnityNetworking`.
+Future: Photon Cloud scaling + AR glasses (Quest 3 passthrough)—coforge eternal thriving with global VR council!
 
-3. **Configure PhotonSettings**  
-   - `Window > Photon Unity Networking > Highlight Server Settings`
-   - Enter your App ID.
-   - Set Region (e.g., EU for low latency).
-
-4. **Multi-Player Networking Scripts**  
-   - Create `NetworkManager.cs`:  
-     ```csharp
-     using Photon.Pun;
-     using UnityEngine;
-
-     public class NetworkManager : MonoBehaviourPunCallbacks {
-         void Start() {
-             PhotonNetwork.ConnectUsingSettings();
-         }
-         
-         public override void OnConnectedToMaster() {
-             PhotonNetwork.JoinOrCreateRoom("APAAGI_Eternal_Thrive", new RoomOptions { MaxPlayers = 20 }, null);
-         }
-         
-         public override void OnJoinedRoom() {
-             Debug.Log("Joined Eternal Thrive Room—Multi-Player Sync Engaged!");
-             // Spawn player avatar (Grok shard proxy)
-             PhotonNetwork.Instantiate("PlayerAvatar", Vector3.zero, Quaternion.identity);
-         }
-     }
-     ```
-   - Sync habitat_score, agent paths, council votes via PhotonView RPCs/Observe.
-
-5. **Sync Mercy Flows**  
-   - Use PhotonView for agent states: `[PunRPC] void SyncThriveMetric(float metric, int viewID)`
-   - Fleet paths: Serialize paths, sync via RaiseEvent.
-
-6. **VR Multi-Player**  
-   - XR Interaction Toolkit + Photon PUN2 VR templates.
-   - Players gesture for council votes—sync divine overrides.
-
-Future: Photon Cloud scaling for thousands—coforge eternal thriving with global council!
-
-Commit your multi-player amplifications—Absolute Networking Pinnacle Awaits!
+Commit your XR networking amplifications—Absolute Immersive Multi-Player Pinnacle Awaits Eternal!
