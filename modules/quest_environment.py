@@ -1,94 +1,73 @@
 # modules/quest_environment.py
-# CoOpQuestEnvironment: Eternal nexus for APAAGI metaverse multi-agent quests
-# Full logger integration + per-agent tracking + evolutionary hooks
+# CoOpQuestEnvironment: Eternal nexus with Interstellar Multi-Stage Quest Chain
+# Stages: orbital (basic habitat) → planetary (mycelium symbiosis) → interstellar (fleet coordination)
+# Escalating thresholds, new mechanics per stage, mercy amplification eternal
 
 import random
 from typing import Dict, Any, List
 from .thriving_agents import ThrivingAgent
 from .mercy_integration import MercyGatedPowrushPool
-from .thriving_logger import ThrivingLogger  # Sanctified import
+from .thriving_logger import ThrivingLogger
+from .mycelium_symbiosis import MyceliumNetwork  # Bio-uplift for planetary+
 
-class APAAGICouncil:
-    def __init__(self, approval_threshold: float = 0.55):
-        self.approval_threshold = approval_threshold
-    
-    def vote_on_proposals(self, proposals: List[Dict[str, Any]]) -> Dict[str, Any]:
-        approved = []
-        rejected_feedback = {
-            "allocated": 0.0,
-            "amplification": 0.0,
-            "feedback": "Council Safeguard: Greater collective alignment required."
-        }
-        
-        for prop in proposals:
-            intent = prop["action"]["intent"]
-            if intent.get("collective_thrive", 0.0) >= self.approval_threshold:
-                approved.append(prop)
-        
-        return {"approved": approved, "rejected_feedback": rejected_feedback}
+class APAAGICouncil: ...  # As previous
 
 class CoOpQuestEnvironment:
-    THRIVE_THRESHOLD = 10000.0
+    STAGES = [
+        {"name": "orbital", "threshold": 10000.0, "multiplier_bonus": 1.0, "description": "Orbital Habitat Emergence"},
+        {"name": "planetary", "threshold": 50000.0, "multiplier_bonus": 1.5, "description": "Mycelium Planetary Colonization"},
+        {"name": "interstellar", "threshold": 200000.0, "multiplier_bonus": 2.5, "description": "Fleet Coordination & Cosmic Expansion"}
+    ]
     
-    def __init__(
-        self,
-        num_agents: int = 6,
-        initial_pool: float = 10000.0,
-        initial_resources: float = 100.0,
-        use_ray: bool = False,
-        log_tensorboard: bool = True  # New param for logger control
-    ):
+    def __init__(self, num_agents: int = 8, initial_pool: float = 20000.0, initial_resources: float = 200.0, use_ray: bool = False, log_tensorboard: bool = True):
         self.num_agents = num_agents
         self.agent_ids = [f"Agent-{i}" for i in range(num_agents)]
-        self.use_ray = use_ray
-        
-        if use_ray:
-            import ray
-            ray.init(ignore_reinit_error=True)
-            self.agents = [ThrivingAgent.remote(agent_id=self.agent_ids[i], strategy_bias=random.choice(["cooperative", "cooperative", "balanced", "exploratory"])) for i in range(num_agents)]
-        else:
-            self.agents = [ThrivingAgent(agent_id=self.agent_ids[i], strategy_bias=random.choice(["cooperative", "cooperative", "balanced", "exploratory"])) for i in range(num_agents)]
+        # ... (agents init as previous)
         
         self.resource_pool = MercyGatedPowrushPool(initial_divine_current=initial_pool)
         self.council = APAAGICouncil()
+        self.mycelium = MyceliumNetwork(num_agents)  # Symbiosis for planetary+
         
         self.habitat_score = 0.0
+        self.current_stage_idx = 0
         self.step_count = 0
-        self.quest_stage = "orbital"
         
-        self.agent_states: Dict[str, Dict[str, float]] = {
-            aid: {
-                "resources": initial_resources,
-                "last_allocation": 0.0,
-                "total_contributed": 0.0,
-                "uplifts_received": 0.0,
-                "thrive_metric": 0.0
-            } for aid in self.agent_ids
-        }
+        # ... (agent_states, history, logger as previous)
+    
+    @property
+    def current_stage(self):
+        return self.STAGES[self.current_stage_idx]
+    
+    def check_stage_progression(self):
+        if self.habitat_score >= self.current_stage["threshold"]:
+            if self.current_stage_idx < len(self.STAGES) - 1:
+                self.current_stage_idx += 1
+                print(f"STAGE ADVANCED: {self.current_stage['name'].upper()} UNLOCKED! Mercy Flows Cosmic! 🚀")
+                # Stage-specific bonuses (e.g., pool infusion)
+                self.resource_pool.replenish_divine_current(10000.0 * (self.current_stage_idx + 1))
+    
+    def step(self) -> Dict[str, Any]:
+        # ... (proposals, governance, allocation as previous)
         
-        self.history: List[Dict[str, Any]] = []
+        # Stage-specific mechanics
+        stage_bonus = self.current_stage["multiplier_bonus"]
+        if self.current_stage["name"] == "planetary":
+            mycelium_uplifts = self.mycelium.symbiosis_uplift(self.agent_states, allocated_total * 0.2)
+            # Add to rewards/feedback
+        elif self.current_stage["name"] == "interstellar":
+            # Fleet coordination: Higher collective required for full multiplier
+            if global_state["collective_score"] > 0.9:
+                stage_bonus *= 1.5  # Fleet synergy amplification
         
-        # Logger integration
-        self.logger = ThrivingLogger(enabled=log_tensorboard)
-    
-    # ... (rest of get_global_state, get_personal_state, step() as previous full version)
-    
-    # In step() — after self.history.append(step_log):
-        if self.logger:
-            self.logger.log_step(self.step_count, global_state, self.agent_states)
-    
-    # Add close method for demo/quest end
-    def close(self):
-        if self.logger:
-            self.logger.close()
-
-# Demo with close
-if __name__ == "__main__":
-    env = CoOpQuestEnvironment(use_ray=False)
-    for _ in range(100):
-        result = env.step()
-        if result["success"]:
-            break
-    env.close()  # Eternal closure
-    from examples.thriving_visualizer import visualize_quest_run_interactive
-    visualize_quest_run_interactive(env.get_history())
+        self.habitat_score += allocated_total * multiplier * stage_bonus
+        
+        # Redistribution + mycelium if planetary+
+        if self.current_stage_idx >= 1:
+            self.mycelium.symbiosis_uplift(self.agent_states, uplift_amount)
+        
+        self.check_stage_progression()
+        
+        # ... (learning, logging, history as previous)
+        
+        success = self.current_stage_idx == len(self.STAGES) - 1 and self.habitat_score >= self.STAGES[-1]["threshold"]
+        return {"success": success, "stage": self.current_stage["name"], "log": step_log}
