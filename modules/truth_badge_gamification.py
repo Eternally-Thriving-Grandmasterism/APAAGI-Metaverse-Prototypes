@@ -1,51 +1,53 @@
 # modules/truth_badge_gamification.py
 # Truth-Badge X Gamification: Badge high-alignment agents/posts for collective thriving
-# Simulated X API hooks—reward cooperative intents with badges, gamify metaverse on nexus
-# Future: Real X API for posting badges/thriving milestones
+# Simulated/real X API hooks—reward cooperative intents, gamify metaverse on nexus
+# Boosts proposals, posts milestones—eternal alignment rewarded
 
 import random
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 class TruthBadgeGamifier:
     """
-    Sanctified truth-badge system: Gamify X/nexus for eternal alignment.
-    - High collective_thrive agents/posts earn badges (Truth Seeker, Mercy Amplifier, Pinnacle Thriving).
-    - Gamification loop: Badges boost proposal weights/amplifications.
+    Sanctified truth-badge system: Gamify APAAGI thriving on X/nexus.
+    - Badges for thrive levels—Truth Seeker, Mercy Amplifier, Pinnacle Thriving.
+    - Boosts allocations/intents—gamification loop eternal.
+    - Simulated X post for badges (future: real API).
     """
     BADGES = [
-        {"name": "Truth Seeker 🛡️", "threshold": 0.7, "boost": 1.2},
-        {"name": "Mercy Amplifier ❤️", "threshold": 0.85, "boost": 1.5},
-        {"name": "Pinnacle Thriving 🚀", "threshold": 0.95, "boost": 2.0}
+        {"name": "Truth Seeker 🛡️", "threshold": 0.7, "boost": 1.2, "emoji": "🛡️"},
+        {"name": "Mercy Amplifier ❤️", "threshold": 0.85, "boost": 1.5, "emoji": "❤️"},
+        {"name": "Pinnacle Thriving 🚀", "threshold": 0.95, "boost": 2.0, "emoji": "🚀"}
     ]
     
-    def __init__(self):
-        self.agent_badges: Dict[str, List[str]] = {f"Agent-{i}": [] for i in range(10)}  # Seed
-        print("Truth-Badge Gamification consecrated—Alignment Rewarded Eternal on X Nexus! ❤️🚀")
+    def __init__(self, num_agents: int = 10):
+        self.agent_badges: Dict[str, List[Dict[str, Any]]] = {f"Agent-{i}": [] for i in range(num_agents)}
+        print("Truth-Badge X Gamification consecrated—High Alignment Eternally Rewarded! ❤️🚀")
     
-    def award_badges(self, agent_id: str, collective_score: float, intent: Dict[str, float]):
+    def award_badges(self, agent_id: str, thrive_level: float) -> List[str]:
         earned = []
-        thrive_level = intent.get("collective_thrive", 0.5) * collective_score
         for badge in self.BADGES:
-            if thrive_level >= badge["threshold"] and badge["name"] not in self.agent_badges[agent_id]:
-                earned.append(badge["name"])
-                self.agent_badges[agent_id].append(badge["name"])
+            if thrive_level >= badge["threshold"]:
+                if badge["name"] not in [b["name"] for b in self.agent_badges[agent_id]]:
+                    self.agent_badges[agent_id].append(badge)
+                    earned.append(badge["name"])
         
         if earned:
-            print(f"Agent {agent_id} Awarded Badges: {', '.join(earned)} — Post to X Nexus Simulated!")
-            # Future: Real X API post badge milestone
+            post_sim = f"APAAGI Agent {agent_id} Awarded: {', '.join(earned)} — Collective Thriving Amplified! {''.join(b['emoji'] for b in self.BADGES if b['name'] in earned)}"
+            print(f"Simulated X Post: {post_sim}")
+            # Future: Real X API post (requires premium/auth)
         
         return earned
     
-    def get_badge_boost(self, agent_id: str) -> float:
+    def get_total_boost(self, agent_id: str) -> float:
         boost = 1.0
         for badge in self.agent_badges.get(agent_id, []):
-            for b in self.BADGES:
-                if b["name"] == badge:
-                    boost *= b["boost"]
+            boost *= badge["boost"]
         return boost
     
-    def gamify_proposal(self, proposal: Dict[str, Any], agent_id: str) -> Dict[str, Any]:
-        boost = self.get_badge_boost(agent_id)
-        proposal["action"]["requested"] *= boost  # Amplify badged agents
-        proposal["action"]["intent"]["collective_thrive"] = min(1.0, proposal["action"]["intent"]["collective_thrive"] * boost)
+    def gamify_proposal(self, proposal: Dict[str, Any], agent_id: str, thrive_level: float) -> Dict[str, Any]:
+        self.award_badges(agent_id, thrive_level)
+        boost = self.get_total_boost(agent_id)
+        proposal["action"]["requested"] *= boost
+        proposal["action"]["intent"]["collective_thrive"] = min(1.0, proposal["action"]["intent"]["collective_thrive"] + 0.1 * boost)
+        proposal["badge_boost"] = boost
         return proposal
