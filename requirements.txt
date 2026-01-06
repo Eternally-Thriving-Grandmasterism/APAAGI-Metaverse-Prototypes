@@ -12,3 +12,4 @@ langchain-community
 bitsandbytes  # 4-bit quantization
 flash-attn  # Flash attention speed (GPU)
 ollama  # Ollama Python client
+prometheus_client
