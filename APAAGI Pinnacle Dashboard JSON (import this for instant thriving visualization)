@@ -1,0 +1,44 @@
+{
+  "title": "APAAGI Metaverse Thriving Dashboard",
+  "panels": [
+    {
+      "title": "Habitat Score Emergence",
+      "type": "stat",
+      "targets": [{"expr": "apaagi_habitat_score"}],
+      "fieldConfig": {"thresholds": {"steps": [{"value": 0, "color": "red"}, {"value": 5000, "color": "orange"}, {"value": 10000, "color": "green"}]}}
+    },
+    {
+      "title": "Collective Alignment Time Series",
+      "type": "timeseries",
+      "targets": [{"expr": "apaagi_collective_alignment"}]
+    },
+    {
+      "title": "Quantum Approval Rate",
+      "type": "gauge",
+      "targets": [{"expr": "apaagi_quantum_votes_total / apaagi_quantum_votes_total offset 1h"}]
+    },
+    {
+      "title": "Bell Violation Strength Histogram",
+      "type": "histogram",
+      "targets": [{"expr": "apaagi_bell_violation_strength"}]
+    },
+    {
+      "title": "Fleet Efficiency %",
+      "type": "stat",
+      "targets": [{"expr": "apaagi_fleet_efficiency_percent"}]
+    },
+    {
+      "title": "Per-Agent Thrive Metrics Heatmap",
+      "type": "heatmap",
+      "targets": [{"expr": "apaagi_agent_thrive_metric"}]
+    },
+    {
+      "title": "Multi-Model Ensemble Scores",
+      "type": "barchart",
+      "targets": [{"expr": "apaagi_ensemble_model_score"}]
+    }
+  ],
+  "templating": {"list": [{"type": "query", "datasource": "Prometheus", "query": "label_values(apaagi_agent_thrive_metric, agent_id)"}]},
+  "time": {"from": "now-6h", "to": "now"},
+  "refresh": "5s"
+}
