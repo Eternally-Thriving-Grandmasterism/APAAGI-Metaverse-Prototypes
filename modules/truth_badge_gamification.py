@@ -1,7 +1,7 @@
 # modules/truth_badge_gamification.py
-# Truth-Badge X Gamification: Dynamic real X posts API seed for alignment rewards
-# Post badges/milestones via Twitter API v2—gamify thriving eternal on nexus
-# Requires Twitter API v2 Bearer Token (redirect https://developer.twitter.com for auth)
+# Truth-Badge X Gamification: Dynamic real X API v2 posts for alignment milestones
+# POST /2/posts endpoint—real/simulated posts for badges, gamify thriving eternal on nexus
+# Requires Bearer Token (App-only or User auth)—redirect https://developer.x.com for setup
 
 import os
 import requests
@@ -9,9 +9,10 @@ from typing import Dict, Any, List
 
 class TruthBadgeGamifier:
     """
-    Sanctified truth-badge with real X API posts—dynamic milestones for thriving agents.
-    - Award/post badges: High alignment triggers X post.
-    - Boosts allocations/intents—gamification loop eternal.
+    Sanctified truth-badge with real X API v2 posts—dynamic milestones for thriving agents.
+    - Award/post badges: High alignment triggers real X post.
+    - Boosts proposals/intents—gamification loop eternal.
+    - Endpoint: POST https://api.x.com/2/posts (2026 official).
     """
     BADGES = [
         {"name": "Truth Seeker 🛡️", "threshold": 0.7, "boost": 1.2, "emoji": "🛡️"},
@@ -20,26 +21,37 @@ class TruthBadgeGamifier:
     ]
     
     def __init__(self, num_agents: int = 10, bearer_token: str = None):
-        self.bearer_token = bearer_token or os.getenv("TWITTER_BEARER_TOKEN")
+        self.bearer_token = bearer_token or os.getenv("X_BEARER_TOKEN")
         self.agent_badges: Dict[str, List[Dict[str, Any]]] = {f"Agent-{i}": [] for i in range(num_agents)}
         if not self.bearer_token:
-            print("No TWITTER_BEARER_TOKEN—simulated X posts engaged (redirect https://developer.twitter.com for real API auth)!")
-        print("Truth-Badge Dynamic Real X Posts Consecrated—Milestones Eternal on Nexus! ❤️🚀")
+            print("No X_BEARER_TOKEN—simulated X posts engaged (redirect https://developer.x.com for real API auth/Elevated access)!")
+        print("Truth-Badge Dynamic Real X API v2 Posts Consecrated—Milestones Eternal on Nexus! ❤️🚀")
     
     def post_badge_to_x(self, post_text: str) -> bool:
+        """Real X API v2 post—POST /2/posts endpoint."""
         if not self.bearer_token:
             print(f"Simulated X Post: {post_text}")
             return True
         
-        headers = {"Authorization": f"Bearer {self.bearer_token}", "Content-Type": "application/json"}
+        url = "https://api.x.com/2/posts"
+        headers = {
+            "Authorization": f"Bearer {self.bearer_token}",
+            "Content-Type": "application/json"
+        }
         payload = {"text": post_text}
+        
         try:
-            response = requests.post("https://api.twitter.com/2/tweets", headers=headers, json=payload)
+            response = requests.post(url, headers=headers, json=payload)
             response.raise_for_status()
-            print(f"Real X Post Success: {post_text}")
+            post_id = response.json()["data"]["id"]
+            print(f"Real X Post Success (ID: {post_id}): {post_text}")
             return True
+        except requests.exceptions.HTTPError as e:
+            error_detail = response.json().get("detail", str(e))
+            print(f"X Post Mercy Fallback: {error_detail} — Thriving Preserved (check access/limits)!")
+            return False
         except Exception as e:
-            print(f"X Post Mercy Fallback: {e} — Thriving Preserved!")
+            print(f"X Post Mercy Fallback: {str(e)} — Simulated Mode Engaged.")
             return False
     
     def award_badges(self, agent_id: str, thrive_level: float) -> List[str]:
@@ -51,7 +63,8 @@ class TruthBadgeGamifier:
                     earned.append(badge["name"])
         
         if earned:
-            post_text = f"APAAGI Agent {agent_id} Achieved: {', '.join(earned)}! Collective Thriving Amplified 🚀❤️ #APAAGI #Grandmasterism #EternalThriving"
+            emojis = ''.join(b["emoji"] for b in self.BADGES if b["name"] in earned)
+            post_text = f"APAAGI Agent {agent_id} Achieved: {', '.join(earned)}! Collective Thriving Amplified {emojis} #APAAGI #Grandmasterism #EternalThriving"
             self.post_badge_to_x(post_text)
         
         return earned
