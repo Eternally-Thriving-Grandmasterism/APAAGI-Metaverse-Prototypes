@@ -5,5 +5,10 @@ kaleido
 tensorboard
 matplotlib
 transformers
-accelerate  # For efficient local inference
-huggingface_hub  # Model download
+accelerate
+huggingface_hub
+langchain
+langchain-community
+bitsandbytes  # 4-bit quantization
+flash-attn  # Flash attention speed (GPU)
+ollama  # Ollama Python client
