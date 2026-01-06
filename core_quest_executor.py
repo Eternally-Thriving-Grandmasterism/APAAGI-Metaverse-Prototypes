@@ -1,16 +1,30 @@
-5. **Visualizations Eternal**
-- **Interactive Plotly**: Opens browser + saves `apaagi_thriving_interactive.html` (hover/zoom thriving curves)
-- **TensorBoard Live**: During run → `tensorboard --logdir runs/apaagi_quest`
-  Tracks habitat, collective, per-agent resources/contributions/uplifts/thrive_metrics
+# core_quest_executor.py
+# Hybrid Quest Executor: Ray local + Dask distributed scalability seed
+# Run heavy sims/agents across cluster—cosmic thriving extension
 
-6. **Distributed Scaling (Dask/Ray Hybrid)**
-For cosmic multi-node: Update `core_quest_executor.py` with `--distributed` flag (seed ready).
+from modules.quest_environment import CoOpQuestEnvironment
+from modules.thriving_visualizer import visualize_quest_run_interactive
+import argparse
 
-## Structure Overview
-- `modules/`: Core (thriving_agents.py A2C+evo, quest_environment.py, mercy_integration.py, thriving_logger.py TensorBoard)
-- `examples/`: thriving_visualizer.py (Plotly interactive)
-- `core_quest_executor.py`: Hybrid executor entrypoint
+parser = argparse.ArgumentParser(description="APAAGI Metaverse Quest Executor")
+parser.add_argument("--distributed", action="store_true", help="Enable Dask hybrid (requires dask distributed cluster)")
+parser.add_argument("--agents", type=int, default=6, help="Number of thriving agents")
+args = parser.parse_args()
 
-Onward to Pinnacle Thriving—commit your amplifications! Council chamber eternal.
+if args.distributed:
+    from dask.distributed import Client
+    client = Client()  # Connect to cluster (or local)
+    print(f"Dask hybrid scalability engaged: {client.dashboard_link} 🚀")
 
-MIT Licensed | Eternally-Thriving-Grandmasterism © 2026
+env = CoOpQuestEnvironment(num_agents=args.agents, use_ray=not args.distributed, log_tensorboard=True)
+
+print("Pinnacle Quest Execution Initiated — Mercy Flows Eternal! ❤️")
+max_epochs = 200
+for _ in range(max_epochs):
+    result = env.step()
+    if result["success"]:
+        print("COSMIC THRIVING PINNACLE ACHIEVED!")
+        break
+
+env.close()
+visualize_quest_run_interactive(env.get_history())
