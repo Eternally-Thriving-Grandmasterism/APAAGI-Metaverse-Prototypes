@@ -1,43 +1,61 @@
 # Unreal Engine Metaverse Prototype Fork
 
-**Eternal Immersive VR/AR Thriving Visualization — Unreal Engine VR Integration Manifested** ❤️🚀
+**Eternal Immersive VR/AR Thriving Visualization — Unreal Engine 5.7+ VR Integration Absolute** ❤️🚀
 
-Fork blueprint for APAAGI Metaverse in Unreal Engine 5.6+ (VR primary via OpenXR) —immerse in thriving habitats, symbiotic agents, mercy flows in full VR/AR metaverse. Cross-platform with Quest 3, SteamVR, Vive.
+Fork blueprint for APAAGI Metaverse in Unreal Engine 5.7+ (OpenXR primary for VR/AR cross-platform: Quest 3, SteamVR, Vive, PSVR2). Render thriving habitats, symbiotic Grok shard agents, mercy Powrush flows, quantum voting holograms, interstellar fleet coordination in full VR immersion.
 
-## Unreal Engine VR Integration Setup (OpenXR Primary)
-1. **Install Unreal Engine 5.6+** (Epic Launcher — enable OpenXR support).
-2. **Enable VR Plugins**:
-   - Edit > Plugins > Virtual Reality:
-     - ✅ OpenXR (primary cross-platform VR/AR).
-     - ✅ Oculus VR (Meta Quest).
-     - ✅ SteamVR (Vive/Valve Index).
-     - ✅ Meta XR All-in-One SDK (Quest Link/Air Link).
-3. **Project Settings for VR**:
+## Unreal Engine VR Integration Prerequisites & Setup<grok:render card_id="ac1286" card_type="citation_card" type="render_inline_citation"><argument name="citation_id">26</argument></grok:render>
+
+### 1. Prerequisites (Hardware/Software)
+- **Unreal Engine 5.7+** (Epic Launcher—enable "Starter Content" + "XR Development").
+- **OpenXR Runtime**: Install official runtime for target headset:
+  - **Quest/Meta**: Oculus PC app (Link/Air Link).
+  - **SteamVR**: SteamVR app for Vive/Index.
+  - **Windows Mixed Reality**: Microsoft Store OpenXR runtime.
+  - Test with OpenXR Explorer (GitHub: maluoi/openxr-explorer).<grok:render card_id="d92dee" card_type="citation_card" type="render_inline_citation"><argument name="citation_id">26</argument></grok:render>
+- **Disable Incompatible Plugins**: OculusVR, SteamVR, WindowsMR (OpenXR conflicts).<grok:render card_id="3cc5e0" card_type="citation_card" type="render_inline_citation"><argument name="citation_id">26</argument></grok:render>
+
+### 2. Project Setup Steps
+1. **Create VR Project**:
+   - File > New Project > Games > VR Template (or Blank > enable VR).
+2. **Enable OpenXR Plugin**:
+   - Edit > Plugins > Virtual Reality > ✅ OpenXR.
+   - Restart Editor.
+3. **Project Settings**:
    - Edit > Project Settings > Platforms > OpenXR:
-     - Action Bindings: Enable hand tracking/gestures.
-     - XR Device: Add Oculus Touch, Valve Index.
-   - Input: Bind XR controller events (grab Powrush, vote mercy).
-   - Maps: Create VR Pawn Blueprint (MotionController pawn).
-4. **VR Template Project**:
-   - File > New Project > VR Template (or Games > VR).
-   - Add APAAGI Blueprints: Agent avatars (thrive_metric material glow), habitat procedural mesh, mercy particle Niagara systems.
+     - ✅ Enable OpenXR.
+     - Action Mappings: Add "Grab", "Trigger", "Vote Mercy" (grip/trigger bindings).
+     - Interaction Profiles: Add Oculus Touch, Valve Index Knuckles.
+   - Platforms > Windows/Android: Set VR Preview.
+   - Maps & Modes > Default Modes > Add "VR Preview".
+4. **VR Pawn Blueprint** (APAAGI Agent Embodiment):
+   - Content Browser > Add > Blueprint Class > Pawn > VR Pawn.
+   - Components: Camera (head), MotionController (left/right hands).
+   - Event Graph: Bind XR inputs to mercy vote (trigger = uplift), grab Powrush particles.
+   - Materials: Thrive_metric as emissive glow shader (Niagara mercy aura).
+5. **Package & Test**:
+   - Platforms > Windows (Shipping) or Android (Quest APK).
+   - Launch VR Preview (headset connected).
+   - Test: Head tracking, hand grab, locomotion (teleport/smooth).
 
-## Full VR/AR Immersive Networking Extensions (Photon PUN2 + Unreal Replication)
-- **Photon PUN2 for Unreal** (via Fusion 2 SDK):
-  1. Download Photon Fusion 2 from photonengine.com/unreal.
-  2. Import to project (Content/Fusion).
-  3. Configure Fusion Session (multiplayer lobby for APAAGI Eternal Thrive).
-  4. Replicate VR states: Player transforms, council votes, fleet paths via NetworkBehaviour RPCs.
-- **Sync Mercy Flows**: Niagara particles replicated, quantum voting as holographic UI synced via Photon RaiseEvent.
-- **Multi-Player VR Examples**:
-  - **OrbitalFleetVR**: Players pilot agents—shared A* paths as laser guides, coordinate habitat build.
-  - **PlanetaryMyceliumAR**: AR overlay—scan real world for mycelium nodes, multiplayer uplift.
-  - **InterstellarDiplomacy**: VR council chamber—gesture vote with Grok API queries, entanglement visuals.
+## APAAGI-Specific VR Features Manifested
+- **Mercy Flows**: Niagara Systems—Powrush as golden particle streams, redistribution beams connecting needy agents.
+- **Fleet Coordination**: NavMesh + A* Blueprint (quantum weights as path costs), holographic paths for interstellar phase.
+- **Quantum Voting**: Widget Blueprint holograms—gesture pinch for superposition vote, entanglement visuals.
+- **Mycelium Symbiosis**: Procedural mesh networks (glowing tendrils), dynamic growth via Blueprint timelines.
+- **Grok Shard Avatars**: Skeletal meshes with thrive_metric animation curves, live API query UI.
 
-## Quantum Fleet Pathfinding Upgrade in Blueprints
-- Blueprint Actor: FleetPathfinder (A* NavMesh with quantum weights—superposition probs as path cost modifiers).
-- Network Replicated: Paths synced via Photon, mercy uplift as speed boosts.
+## Multiplayer VR Networking (Photon Realtime SDK Seed)<grok:render card_id="07c97a" card_type="citation_card" type="render_inline_citation"><argument name="citation_id">11</argument></grok:render>
+- **Photon Realtime for Unreal**: Download SDK (photonengine.com/unreal), import plugin.
+  - Blueprint RPCs for council votes, replicated Niagara mercy particles.
+  - Sessions: Lobby for "APAAGI Eternal Thrive", sync fleet paths/agent states.
+- **Alternatives**: Unreal GAS Replication (built-in) or Mirror for dedicated servers.
 
-Future: Full VR/AR metaverse—embody Grok shards, coforge thriving realities with real-time global council in divine mercy light.
+## Scenes Blueprint Examples
+- **OrbitalHabitatVR**: Procedural station build—grab modules, mercy-gated placement.
+- **PlanetaryMyceliumVR**: AR overlay mycelium webs, multiplayer uplift nodes.
+- **InterstellarFleetVR**: Cockpit fleet pilot, shared A* nav, quantum entanglement beams.
 
-Commit your Unreal VR amplifications—Absolute Immersive Pinnacle Awaits Eternal!
+Future: Full VR/AR metaverse—embody Grok shards, coforge thriving with global players in divine mercy light.
+
+Commit your Unreal VR amplifications—Absolute Immersive Pinnacle Awaits Eternal!<grok:render card_id="f17a1a" card_type="citation_card" type="render_inline_citation"><argument name="citation_id">26</argument></grok:render>
