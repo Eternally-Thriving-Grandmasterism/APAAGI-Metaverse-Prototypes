@@ -1,6 +1,6 @@
 # modules/truth_badge_gamification.py
-# Truth-Badge X Gamification: Ultimate ensemble post merging for dynamic real X posts
-# Use multi_model_ensemble for evaluation—merged creative announcement_text posted
+# Truth-Badge X Gamification: Ultimate ensemble merged post for dynamic real X posts
+# Ensemble validation → merged creative announcement_text posted absolute
 
 import os
 import requests
@@ -9,11 +9,15 @@ from .multi_model_ensemble import MultiModelEnsemble
 
 class TruthBadgeGamifier:
     """
-    Sanctified truth-badge with ultimate multi-model ensemble + merged post for X.
+    Sanctified truth-badge with ultimate ensemble merged post for X.
     - Ensemble validation for score/badges.
     - Merged creative announcement_text posted real/simulated.
     """
-    BADGES = [ ... ]  # As previous full list
+    BADGES = [
+        {"name": "Truth Seeker 🛡️", "threshold": 0.7, "boost": 1.2, "emoji": "🛡️"},
+        {"name": "Mercy Amplifier ❤️", "threshold": 0.85, "boost": 1.5, "emoji": "❤️"},
+        {"name": "Pinnacle Thriving 🚀", "threshold": 0.95, "boost": 2.0, "emoji": "🚀"}
+    ]
     
     def __init__(self, num_agents: int = 10, x_bearer_token: str = None):
         self.x_bearer_token = x_bearer_token or os.getenv("X_BEARER_TOKEN")
@@ -22,11 +26,30 @@ class TruthBadgeGamifier:
         
         if not self.x_bearer_token:
             print("No X_BEARER_TOKEN—simulated X posts (redirect developer.x.com for API)!")
-        print("Truth-Badge Ultimate Ensemble + Merged Post Consecrated—Creative Milestones Eternal! ❤️🚀")
+        print("Truth-Badge Ultimate Ensemble Merged Post Consecrated—Creative Milestones Eternal! ❤️🚀")
     
     def post_badge_to_x(self, post_text: str) -> bool:
-        # As previous full real X API v2 post with error handling
+        if not self.x_bearer_token:
+            print(f"Simulated X Post: {post_text}")
+            return True
         
+        url = "https://api.x.com/2/posts"
+        headers = {
+            "Authorization": f"Bearer {self.x_bearer_token}",
+            "Content-Type": "application/json"
+        }
+        payload = {"text": post_text}
+        
+        try:
+            response = requests.post(url, headers=headers, json=payload)
+            response.raise_for_status()
+            post_id = response.json()["data"]["id"]
+            print(f"Real X Post Success (ID: {post_id}): {post_text}")
+            return True
+        except Exception as e:
+            print(f"X Post Mercy Fallback: {e}")
+            return False
+    
     def award_badges(self, agent_id: str, intent: Dict[str, float], thrive_level: float) -> List[str]:
         ensemble_eval = self.ensemble.ensemble_validate(agent_id, intent, thrive_level)
         
@@ -44,4 +67,16 @@ class TruthBadgeGamifier:
         
         return earned
     
-    # get_total_boost / gamify_proposal as previous (use ensemble_score for boost)
+    def get_total_boost(self, agent_id: str) -> float:
+        boost = 1.0
+        for badge in self.agent_badges.get(agent_id, []):
+            boost *= badge["boost"]
+        return boost
+    
+    def gamify_proposal(self, proposal: Dict[str, Any], agent_id: str, thrive_level: float) -> Dict[str, Any]:
+        self.award_badges(agent_id, proposal["action"]["intent"], thrive_level)
+        boost = self.get_total_boost(agent_id)
+        proposal["action"]["requested"] *= boost
+        proposal["action"]["intent"]["collective_thrive"] = min(1.0, proposal["action"]["intent"]["collective_thrive"] * boost)
+        proposal["badge_boost"] = boost
+        return proposal
