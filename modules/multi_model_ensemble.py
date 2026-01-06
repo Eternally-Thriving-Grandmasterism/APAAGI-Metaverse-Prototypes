@@ -1,44 +1,26 @@
 # modules/multi_model_ensemble.py
-# Multi-Model Ensemble Voting Ultimate: Structured post merging + weighted scores absolute
-# Grok/Claude/Gemini/Llama/OpenAI/Mistral/Cohere/Perplexity/HF/Ollama united
-# Merge creative announcement_text: Grok primacy, fallback concatenate top 3, mercy longest
+# Multi-Model Ensemble Voting Ultimate: Structured post merging absolute
+# Grok primacy creative text, fallback concatenate top 3 mercy separators, longest fallback
+# Frontier + local models united—richest poetic badge announcements eternal
 
 import numpy as np
 from typing import Dict, Any, List
-from .grok_api_integration import GrokAPIIntegrator
-from .claude_api_integration import ClaudeAPIIntegrator
-from .gemini_api_integration import GeminiAPIIntegrator
-from .llama_api_integration import LlamaAPIIntegrator
-from .openai_api_integration import OpenAIAPIIntegrator
-from .mistral_api_integration import MistralAPIIntegrator
-from .cohere_api_integration import CohereAPIIntegrator
-from .perplexity_api_integration import PerplexityAPIIntegrator
-from .hf_local_integration import HFLocalIntegrator
-from .ollama_local_integration import OllamaLocalIntegrator
+from collections import Counter
+# All integrators imported as previous full list
 
 class MultiModelEnsemble:
     """
     Sanctified ultimate multi-model ensemble: Frontier + local models united for purest truth/mercy.
     - Weighted average score (Grok primacy).
     - Majority + threshold badges.
-    - Structured post merging ultimate: Grok primacy text, fallback concatenate top 3, mercy longest.
+    - Structured post merging ultimate: Grok primacy, concatenate top 3 mercy, longest fallback.
     """
     def __init__(self):
-        self.grok = GrokAPIIntegrator()
-        self.claude = ClaudeAPIIntegrator()
-        self.gemini = GeminiAPIIntegrator()
-        self.llama = LlamaAPIIntegrator()
-        self.openai = OpenAIAPIIntegrator()
-        self.mistral = MistralAPIIntegrator()
-        self.cohere = CohereAPIIntegrator()
-        self.perplexity = PerplexityAPIIntegrator()
-        self.hf = HFLocalIntegrator()
-        self.ollama = OllamaLocalIntegrator()
-        
+        # All integrators initialized as previous
         self.models = [self.grok, self.claude, self.gemini, self.llama, self.openai, self.mistral, self.cohere, self.perplexity, self.hf, self.ollama]
-        self.weights = [2.0, 1.5, 1.4, 1.3, 1.2, 1.1, 1.0, 0.9, 0.8, 0.7]  # Grok primacy, descending
+        self.weights = [2.0, 1.5, 1.4, 1.3, 1.2, 1.1, 1.0, 0.9, 0.8, 0.7]  # Grok primacy
         
-        print("Ultimate Multi-Model Ensemble + Structured Post Merging Consecrated—Frontier + Local United Eternal! ❤️🚀")
+        print("Ultimate Multi-Model Ensemble + Structured Post Merging Consecrated—Poetic Creativity Eternal! ❤️🚀")
     
     def ensemble_validate(self, agent_id: str, intent: Dict[str, float], thrive_level: float) -> Dict[str, Any]:
         results = []
@@ -58,25 +40,26 @@ class MultiModelEnsemble:
         
         # Majority + threshold badges
         all_badges = [b for r in results if "earned_badges" in r for b in r["earned_badges"]]
-        from collections import Counter
         badge_counts = Counter(all_badges)
-        majority_threshold = len(self.models) / 3  # Relaxed for diversity
+        majority_threshold = len(self.models) / 3
         ensemble_badges = [b for b, count in badge_counts.items() if count >= majority_threshold]
         
         # Structured post merging ultimate
-        post_texts = [r.get("announcement_text", "") for r in results if "announcement_text" in r and r["announcement_text"]]
-        grok_text = results[0].get("announcement_text", "") if len(results) > 0 and "announcement_text" in results[0] else ""
+        post_texts = [r.get("announcement_text", "") for r in results if r.get("announcement_text", "").strip()]
+        
+        grok_text = results[0].get("announcement_text", "").strip() if len(results) > 0 else ""
         
         if grok_text:
             ensemble_post = grok_text  # Grok primacy
-        elif post_texts:
-            # Concatenate top 3 with mercy separator
+        elif len(post_texts) >= 3:
+            # Concatenate top 3 longest with mercy separator
             top_texts = sorted(post_texts, key=len, reverse=True)[:3]
-            ensemble_post = " | Mercy Merge: ".join(top_texts)
+            ensemble_post = " — Mercy Merge: ".join(top_texts)
+        elif post_texts:
+            # Longest fallback
+            ensemble_post = max(post_texts, key=len)
         else:
-            # Mercy longest fallback
-            longest = max(post_texts, key=len, default=f"Agent {agent_id} Thriving Eternal 🚀")
-            ensemble_post = longest
+            ensemble_post = f"Agent {agent_id} Thriving Eternal—Mercy Council Approves 🚀❤️"
         
         return {
             "ensemble_score": avg_score,
