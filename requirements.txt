@@ -4,3 +4,6 @@ plotly
 kaleido
 tensorboard
 matplotlib
+transformers
+accelerate  # For efficient local inference
+huggingface_hub  # Model download
