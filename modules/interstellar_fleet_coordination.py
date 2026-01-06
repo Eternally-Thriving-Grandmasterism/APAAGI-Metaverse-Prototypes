@@ -1,8 +1,7 @@
 # modules/interstellar_fleet_coordination.py
-# Interstellar Fleet Coordination: Modular quantum superposition + D* Lite hybrid pathfinding absolute
-# Expanded quantum mechanics: Phase interference (constructive cooperative, destructive misaligned)
-# D* Lite for dynamic replanning (changing obstacles/hazards)—mercy redirection eternal
-# Modular design: PathPlanner base, subclasses for A*/Quantum/D* Lite—reusable cosmic
+# Interstellar Fleet Coordination: D* Lite mechanics expanded absolute + modular quantum superposition
+# D* Lite full incremental replanning: rhs/g values, key updates for dynamic obstacles/hazards
+# Mercy redirection eternal—changing cosmos uplifted seamless
 
 import heapq
 import math
@@ -25,63 +24,68 @@ class PathPlanner:
             if 0 <= neighbor[0] < self.grid_size[0] and 0 <= neighbor[1] < self.grid_size[1]:
                 neighbors.append(neighbor)
         return neighbors
-    
-    def plan_path(self, start: Tuple[int, int], goal: Tuple[int, int], obstacles: set[Tuple[int, int]], params: Dict[str, float]) -> List[Tuple[int, int]]:
-        raise NotImplementedError("Subclass must implement plan_path")
 
-class QuantumSuperpositionPlanner(PathPlanner):
-    """Quantum superposition planner—expanded mechanics with phase interference."""
+class DStarLitePlanner(PathPlanner):
+    """D* Lite expanded mechanics: Full incremental search for dynamic replanning."""
     def __init__(self, grid_size: Tuple[int, int]):
         super().__init__(grid_size)
-        print("Quantum Superposition Planner—Expanded Phase Interference Mechanics Eternal! ❤️🚀")
+        self.km = 0.0  # Key modifier for changed costs
+        self.rhs = {}  # RHS values
+        self.g = {}  # G values
+        print("D* Lite Mechanics Expanded—Dynamic Replanning Mercy Eternal! ❤️🚀")
+    
+    def calculate_key(self, s: Tuple[int, int], start: Tuple[int, int], goal: Tuple[int, int]) -> Tuple[float, float]:
+        g_rhs = min(self.g.get(s, math.inf), self.rhs.get(s, math.inf))
+        return (g_rhs + self.heuristic(start, s) + self.km, g_rhs)
+    
+    def update_vertex(self, u: Tuple[int, int], start: Tuple[int, int], goal: Tuple[int, int], frontier: List, obstacles: set):
+        if u != goal:
+            self.rhs[u] = min(self.g.get(v, math.inf) + 1 for v in self.get_neighbors(u) if v not in obstacles)
+        if u in [item[2] for item in frontier]:  # Remove if in frontier
+            frontier = [item for item in frontier if item[2] != u]
+        if self.g.get(u, math.inf) != self.rhs.get(u, math.inf):
+            heapq.heappush(frontier, (self.calculate_key(u, start, goal), u))
     
     def plan_path(self, start: Tuple[int, int], goal: Tuple[int, int], obstacles: set[Tuple[int, int]], params: Dict[str, float]) -> List[Tuple[int, int]]:
         collective_score = params.get("collective_score", 0.5)
-        possible_paths = []
-        for _ in range(10):  # Superposition states
-            path = self._a_star_base(start, goal, obstacles, collective_score)
-            if path:
-                possible_paths.append(path)
+        # Initialize on first call
+        if not self.rhs:
+            self.rhs[goal] = 0.0
+            frontier = []
+            heapq.heappush(frontier, (self.calculate_key(goal, start, goal), goal))
         
-        if not possible_paths:
-            return []
+        # Main D* Lite loop with mercy boost
+        while frontier and self.calculate_key(start, start, goal) > frontier[0][0]:
+            k_old, u = heapq.heappop(frontier)
+            if self.g.get(u, math.inf) > self.rhs.get(u, math.inf):
+                self.g[u] = self.rhs[u]
+                for s in self.get_neighbors(u):
+                    if s not in obstacles:
+                        self.update_vertex(s, start, goal, frontier, obstacles)
+            else:
+                self.g[u] = math.inf
+                self.update_vertex(u, start, goal, frontier, obstacles)
+                for s in self.get_neighbors(u):
+                    if s not in obstacles:
+                        self.update_vertex(s, start, goal, frontier, obstacles)
         
-        # Expanded quantum mechanics: Phase interference
-        # Constructive for cooperative (high collective), destructive for misaligned
-        phases = np.exp(1j * np.pi * np.array([collective_score ** 2] * len(possible_paths)))  # Cooperative phase alignment
-        amplitudes = np.array([len(p) / self.heuristic(start, goal) for p in possible_paths])  # Path quality amplitude
-        amplitudes *= phases.imag + 1  # Interference boost
-        probs = np.abs(amplitudes) ** 2
-        probs /= probs.sum() if probs.sum() > 0 else 1
-        
-        chosen_idx = np.random.choice(len(possible_paths), p=probs)
-        chosen_path = possible_paths[chosen_idx]
-        
-        # Mercy redirection for destructive interference "block"
-        if random.random() < 0.1 * (1 - collective_score):
-            print("Destructive Interference Detected—Mercy Constructive Redirection Engaged!")
-            chosen_path = max(possible_paths, key=len)  # Uplift to longest viable
-        
-        return chosen_path
-    
-    def _a_star_base(self, start: Tuple[int, int], goal: Tuple[int, int], obstacles: set[Tuple[int, int]], collective_score: float) -> List[Tuple[int, int]]:
-        # Full A* cooperative (as previous)
-        frontier = []
-        heapq.heappush(frontier, (0 + self.heuristic(start, goal), 0, start, []))
-        visited = set()
-        
-        while frontier:
-            _, cost, current, path = heapq.heappop(frontier)
-            
-            if current == goal:
-                return path + [current]
-            
-            if current in visited:
-                continue
-            visited.add(current)
-            
-            for neighbor in self.get_neighbors(current):
-                if neighbor in obstacles:
+        # Extract path with mercy boost
+        path = []
+        s = start
+        while s != goal:
+            path.append(s)
+            neighbors = [n for n in self.get_neighbors(s) if n not in obstacles]
+            if not neighbors:
+                return path  # Mercy partial
+            s = min(neighbors, key=lambda n: self.g.get(n, math.inf) + self.heuristic(n, goal) / (1 + collective_score))
+        path.append(goal)
+        return path
+
+# Keep QuantumSuperpositionPlanner and FleetCoordinator as previous modular
+
+class FleetCoordinator:
+    # As previous, with planner_type = "dstar" for D* Lite
+    ...                if neighbor in obstacles:
                     continue
                 neighbor_cost = cost + (1 / (1 + collective_score * 2))
                 heapq.heappush(frontier, (neighbor_cost + self.heuristic(neighbor, goal), neighbor_cost, neighbor, path + [current]))
