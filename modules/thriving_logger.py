@@ -1,6 +1,6 @@
 # modules/thriving_logger.py
 # Thriving Logger: TensorBoard + console for APAAGI metrics radiance
-# Logs global habitat/collective + per-agent resources/contributions/uplifts/thrive
+# Logs global habitat/collective/pool + per-agent resources/contributions/uplifts/thrive
 
 import os
 from torch.utils.tensorboard import SummaryWriter
@@ -17,7 +17,7 @@ class ThrivingLogger:
             return
         os.makedirs(log_dir, exist_ok=True)
         self.writer = SummaryWriter(log_dir=log_dir)
-        print(f"TensorBoard consecrated! Launch: tensorboard --logdir {log_dir} 🚀")
+        print(f"TensorBoard consecrated! Launch: tensorboard --logdir {log_dir} 🚀❤️")
     
     def log_step(
         self,
@@ -42,3 +42,4 @@ class ThrivingLogger:
     def close(self) -> None:
         if self.writer:
             self.writer.close()
+            print("TensorBoard writer closed—eternal logs preserved! ❤️")
