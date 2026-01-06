@@ -1,6 +1,6 @@
 ray[default]
 torch
 plotly
-kaleido  # Plotly static exports
+kaleido
 tensorboard
-matplotlib  # Fallback
+matplotlib
